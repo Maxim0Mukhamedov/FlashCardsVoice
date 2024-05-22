@@ -9,10 +9,10 @@ export const FolderList = (props) => {
       <AddFolder
         onAdd = { onAdd }
       />
-      <FolderItemList
+     {items[0].title !== null ? <FolderItemList
         items  = { items }
         toTask = { toTask }
-      />
+      /> : null} 
     </main>
   )
 }

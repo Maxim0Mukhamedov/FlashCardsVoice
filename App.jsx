@@ -30,8 +30,8 @@ export class App extends React.Component {
     console.log('constructor');
 
     this.state = {
-      notes: [{ id: Math.random().toString(36).substring(7), folder: null, title: 'Запись', ans: 'some text'}],
-      folders: [{ id: Math.random().toString(36).substring(7), title: 'Папка'}],
+      notes: [{ id: null, folder: null, title: null, ans: null}],
+      folders: [{ id: null, title: null}],
       showTaskList: true,
       showFolderList: true,
       curFolder: {id: null, title: null},
@@ -174,6 +174,7 @@ export class App extends React.Component {
 
   add_folder(action) {
     console.log('add_folder', action);
+    if (this.state.folders[0].title === null) this.state.folders.pop(); 
     this.setState({
       folders: [
         ...this.state.folders,
@@ -198,7 +199,7 @@ export class App extends React.Component {
     console.log('render');
     return (
       <>
-{        this.state.showTaskList ? <TaskList
+{        this.state.curFolder.title !== null ? <TaskList
           items={this.state.notes}
           onAdd={(note) => {
             this.add_note({ type: 'add_note', note });

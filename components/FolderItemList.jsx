@@ -13,7 +13,7 @@ export const FolderItemList = (props) => {
           <FolderItem
             item   = { item }
             index  = { index }
-            toTask = {() => toTask(item)}
+            toTask = {() => toTask(item)} 
           />
         ))
       }
