@@ -11,16 +11,13 @@ export const FolderItem = (props) => {
     >
       <span>
         <span
-          style = {{ fontWeight: "bold" }}
-        >{index + 1}. </span>
-        <span
-          style = {{ textDecorationLine: item.completed ? "line-through" : "none", }}
+          class = "folder-title"
         >
           {item.title}
         </span>
       </span>
       <input
-        className = "link-i"
+        className = "to-folder-button"
         type      = "button"
         value     = "+"
         onClick  = {(event) => toTask(item)}

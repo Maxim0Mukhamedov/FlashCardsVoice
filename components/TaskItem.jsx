@@ -10,12 +10,9 @@ export const TaskItem = (props) => {
       className = "task-item"
     >
       <span>
-        <span
-          style = {{ fontWeight: "bold" }}
-        >{index + 1}. </span>
-     <details>
-        <summary>{item.title}</summary>
-        <p>{item.ans}</p>
+     <details className = "card">
+        <summary className = "question">{item.title}</summary>
+        <p className = "answer">{item.ans}</p>
       </details> 
       </span>
 {/*      <input

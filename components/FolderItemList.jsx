@@ -7,7 +7,7 @@ import "../App.css";
 export const FolderItemList = (props) => {
   const { items, toTask } = props
   return (
-    <ul className="folders">
+    <ul className="folder-list">
       {
         items.map((item, index) => (
           <FolderItem

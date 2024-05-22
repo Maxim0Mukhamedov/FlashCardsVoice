@@ -26,9 +26,9 @@ export class AddTask extends React.Component {
         }}
       >
         <input
-          className   = "add-task"
+          className   = "add-question"
           type        = "text"
-          placeholder = "Add Note"
+          placeholder = "Введите вопрос"
           value       = { this.state.note.title }
           onChange    = {({ target: { value } }) => this.setState({
             note: {...this.state.note,title: value},
@@ -37,9 +37,9 @@ export class AddTask extends React.Component {
           autoFocus
         />
         <input
-          className   = "add-task"
+          className   = "add-answer"
           type        = "text"
-          placeholder = "Add ans"
+          placeholder = "Введите ответ"
           value       = { this.state.note.ans }
           onChange    = {({ target: { value } }) => this.setState({
             note: {...this.state.note,ans: value},
@@ -47,7 +47,7 @@ export class AddTask extends React.Component {
           required
           autoFocus
         />
-        <input type ="submit"/>
+        <input className = "submit-question" type ="submit"/>
       </form>
     )
   }

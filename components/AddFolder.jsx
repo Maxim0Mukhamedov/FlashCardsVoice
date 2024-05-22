@@ -28,7 +28,7 @@ export class AddFolder extends React.Component {
         <input
           className   = "add-folder"
           type        = "text"
-          placeholder = "Add folder"
+          placeholder = "Введите название папки"
           value       = { this.state.folder }
           onChange    = {({ target: { value } }) => this.setState({
             folder: value,

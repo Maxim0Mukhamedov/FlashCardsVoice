@@ -7,18 +7,20 @@ export const TaskList = (props) => {
   const { items, onAdd, onDone, curFolder } = props;
   return (
     <main className="container">
-      <span>{curFolder.title}</span>
+
+      <span className = "cur-folder">Текущая папка: {curFolder.title}</span>
       <AddTask
         onAdd = { onAdd }
       />
+            { items.filter(({folder}) => folder === curFolder.title).length > 0 ?<TaskItemPlay
+        items = { items.filter(({folder}) => folder === curFolder.title) }
+      /> : null }
       <TaskItemList
         items  = { items.filter(({folder}) => folder === curFolder.title) }
         // items = { items }
         onDone = { onDone }
       />
-     { items.filter(({folder}) => folder === curFolder.title).length > 0 ?<TaskItemPlay
-        items = { items.filter(({folder}) => folder === curFolder.title) }
-      /> : null }
+
     </main>
   )
 }

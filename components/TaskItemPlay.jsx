@@ -15,7 +15,7 @@ export class TaskItemPlay extends React.Component {
   }
 
   nextQ = () => {
-    this.setState({index: (this.state.index + 1) > this.state.size ? this.state.size : this.state.index + 1});
+    this.setState({index: (this.state.index + 1) >= this.state.size ? this.state.size - 1 : this.state.index + 1});
   }
 
   prevQ = () => {
@@ -27,19 +27,20 @@ export class TaskItemPlay extends React.Component {
   	this.state.size = items.length;
   	return (
     <>
-    <p>Вопрос №{this.state.index + 1}</p>
-    <details>
-    	<summary>{items[this.state.index].title}</summary>
-        <p>{items[this.state.index].ans}</p>
+    <p className = "card-number">Вопрос №{this.state.index + 1}</p>
+    <details className = "card">
+    	<summary className = "question">{items[this.state.index].title}</summary>
+        <p className = "answer">{items[this.state.index].ans}</p>
     </details> 
+
     <input
-        className = "prevQ"
+        className = "arrow"
         type      = "button"
         value     = "<-"
         onClick  = {this.prevQ}
         />
     <input
-        className = "nextQ"
+        className = "arrow"
         type      = "button"
         value     = "->"
         onClick  = {this.nextQ}
