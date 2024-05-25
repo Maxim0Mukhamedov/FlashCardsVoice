@@ -3,15 +3,16 @@ import {FolderItemList} from '../components/FolderItemList';
 import {AddFolder} from '../components/AddFolder';
 
 export const FolderList = (props) => {
-  const { items, onAdd, toTask } = props;
+  const { items, onAdd, toTask, delFol } = props;
   return (
     <main className="container">
       <AddFolder
         onAdd = { onAdd }
       />
-     {items[0].title !== null ? <FolderItemList
-        items  = { items }
+     {items.length > 1 ? <FolderItemList
+        items  = { items.filter(({title}) => title !== null) }
         toTask = { toTask }
+        delFol = { delFol }
       /> : null} 
     </main>
   )

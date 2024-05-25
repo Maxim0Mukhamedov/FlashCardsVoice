@@ -174,7 +174,6 @@ export class App extends React.Component {
 
   add_folder(action) {
     console.log('add_folder', action);
-    if (this.state.folders[0].title === null) this.state.folders.pop(); 
     this.setState({
       folders: [
         ...this.state.folders,
@@ -193,7 +192,18 @@ export class App extends React.Component {
     });
   }
 
-
+  delete_folder(action) {
+    console.log('delete_note', action);
+    if(action.title === this.state.curFolder.title) {
+      this.setState({curFolder: {id : null, title : null}});
+    }
+    this.setState({
+      folders: this.state.folders.filter(({ id }) => id !== action.id),
+    });
+    this.setState({
+      notes : this.state.notes.filter(({folder}) => folder !== action.title),
+    })
+  }
 
   render() {
     console.log('render');
@@ -204,19 +214,21 @@ export class App extends React.Component {
           onAdd={(note) => {
             this.add_note({ type: 'add_note', note });
           }}
-          onDone={(note) => {
-            this.play_done_note(note.id);
-            this.done_note({ type: 'done_note', id: note.id });
+          delTask={(note) => {
+            this.delete_note(note);
           }}
           curFolder = {this.state.curFolder}
         /> : null}
-{       this.state.showFolderList ? <FolderList
+{       (this.state.showFolderList) ? <FolderList
           items={this.state.folders}
           onAdd={(folder) => {
             this.add_folder({ type: 'add_folder', folder});
           }}
           toTask={(folder) => {
             this.to_task({folder})
+          }}
+          delFol={(folder) => {
+            this.delete_folder(folder);
           }}
         /> : null}
       </>

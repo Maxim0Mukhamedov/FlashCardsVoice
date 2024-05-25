@@ -4,7 +4,7 @@ import "../App.css";
 
 
 export const FolderItem = (props) => {
-  const { item, index, toTask } = props;
+  const { item, index, toTask, delFol } = props;
   return (
     <li
       className = "folder-item"
@@ -21,6 +21,14 @@ export const FolderItem = (props) => {
         type      = "button"
         value     = "+"
         onClick  = {(event) => toTask(item)}
+        //checked   = {item.completed}
+        //onChange  = {(event) => onDone(item) }
+      />
+      <input
+        className = "delete-folder-button"
+        type      = "button"
+        value     = "x"
+        onClick  = {(event) => delFol(item)}
         //checked   = {item.completed}
         //onChange  = {(event) => onDone(item) }
       />

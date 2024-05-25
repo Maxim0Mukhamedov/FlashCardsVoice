@@ -4,7 +4,7 @@ import {TaskItemList} from '../components/TaskItemList';
 import {TaskItemPlay} from '../components/TaskItemPlay';
 
 export const TaskList = (props) => {
-  const { items, onAdd, onDone, curFolder } = props;
+  const { items, onAdd, delTask, curFolder } = props;
   return (
     <main className="container">
 
@@ -17,8 +17,7 @@ export const TaskList = (props) => {
       /> : null }
       <TaskItemList
         items  = { items.filter(({folder}) => folder === curFolder.title) }
-        // items = { items }
-        onDone = { onDone }
+        delTask = { delTask }
       />
 
     </main>

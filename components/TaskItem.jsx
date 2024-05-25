@@ -4,7 +4,7 @@ import "../App.css";
 
 
 export const TaskItem = (props) => {
-  const { item, index, onDone } = props;
+  const { item, index, delTask } = props;
   return (
     <li
       className = "task-item"
@@ -15,12 +15,12 @@ export const TaskItem = (props) => {
         <p className = "answer">{item.ans}</p>
       </details> 
       </span>
-{/*      <input
-        className = "done-item"
-        type      = "checkbox"
-        checked   = {item.completed}
-        onChange  = {(event) => onDone(item) }
-      />*/}
+      <input
+        className = "del-task-button"
+        type      = "button"
+        value     = "x"
+        onClick  = {(event) => delTask(item) }
+      />
     </li>
   )
 }

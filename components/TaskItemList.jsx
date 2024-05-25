@@ -5,7 +5,7 @@ import "../App.css";
 
 
 export const TaskItemList = (props) => {
-  const { items, onDone} = props
+  const { items, delTask} = props
   return (
     <ul className="notes">
       {
@@ -13,7 +13,7 @@ export const TaskItemList = (props) => {
           <TaskItem
             item   = { item }
             index  = { index }
-            onDone = { () => onDone(item) }
+            delTask = { () => delTask(item) }
           />
         ))
       }
