@@ -28,10 +28,16 @@ export class TaskItemPlay extends React.Component {
   	return (
     <>
     <p className = "card-number">Вопрос №{this.state.index + 1}</p>
-    <details className = "card">
-    	<summary className = "question">{items[this.state.index].title}</summary>
-        <p className = "answer">{items[this.state.index].ans}</p>
-    </details> 
+    <div className="card">
+      <div className="card-inner">
+        <div className="card-front">
+          <summary className="question">{items[this.state.index].title}</summary>
+        </div>
+        <div className="card-back">
+          <p className="answer">{items[this.state.index].ans}</p>
+        </div>
+      </div>
+    </div>
 
     <input
         className = "arrow"
