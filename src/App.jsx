@@ -75,7 +75,22 @@ function delItem(db,item,place){
     const objectStore = transaction.objectStore(place);
 
     // Add new student
+    if (place === "folders" || place === "notes") {
+      const allItems = objectStore.getAll();
+      allItems.onsuccess = (event) =>
+      {
+        const items = event.target.result;
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].title === item) {
+            objectStore.delete(items[i].id);
+            break;
+          }
+        }
+      }
+    } else {
+    console.log("TRY DEL FOL",item);
     const request = objectStore.delete(item);
+    
 
     request.onsuccess = ()=> {
         // request.result contains key of the added object
@@ -85,6 +100,7 @@ function delItem(db,item,place){
     request.onerror = (err)=> {
         console.error(`Error to add new student: ${err}`)
     }
+  }
 }
 
 
@@ -129,7 +145,6 @@ const initializeAssistant = (getState /*: any*/, getRecoveryState) => {
 export class App extends React.Component {
 
   setItem(place,val) {
-    console.log("NNNN",place,val)
     this.setState({[place]: val});
   }
 
@@ -141,6 +156,7 @@ export class App extends React.Component {
     this.state = {
       notes: [{ id: null, folder: null, title: null, ans: null}],
       folders: [{ id: null, title: null}],
+      newNote: {id: null, folder: null, title: null, ans: null},
       // notes: this.dbRequest.getNotes,
       // folders: getFolders(),
       showTaskList: true,
@@ -212,19 +228,38 @@ export class App extends React.Component {
     console.log('dispatchAssistantAction', action);
     if (action) {
       switch (action.type) {
-        case 'add_note':
-          return this.add_note(action);
-
-        case 'done_note':
-          return this.done_note(action);
-
-        case 'delete_note':
+        case 'add_folder':
+          return this.add_folder(action);
+        case 'delete_folder':
+          return this.delete_folder(action);
+        case 'to_folder':
+          return this.to_task(action);
+        case 'add_card_title':
+          return this.add_title(action);
+        case 'add_card_text':
+          return this.add_text(action);
+        case 'delete_card':
           return this.delete_note(action);
 
         default:
           throw new Error();
       }
     }
+  }
+
+  add_title(action) {
+    this.setState({newNote : {
+          id: Math.random().toString(36).substring(7),
+          title: action.title,
+          ans: null,
+          folder: this.state.curFolder.title,
+        }
+      })
+  }
+
+  add_text(action) {
+    this.state.newNote.ans = action.text;
+    this.add_note({type : "add_note",note : this.state.newNote});
   }
 
   add_note(action) {
@@ -234,7 +269,6 @@ export class App extends React.Component {
           title: action.note.title,
           ans: action.note.ans,
           folder: this.state.curFolder.title,
-          completed: false,
         };
     this.setState({
       notes: [
@@ -284,9 +318,9 @@ export class App extends React.Component {
   delete_note(action) {
     console.log('delete_note', action);
     this.setState({
-      notes: this.state.notes.filter(({ id }) => id !== action.id),
+      notes: this.state.notes.filter(({ title }) => title !== action.title),
     });
-    createDatabase(delItem,action.id,"notes");
+    createDatabase(delItem,action.title,"notes");
   }
 
   add_folder(action) {
@@ -305,7 +339,7 @@ export class App extends React.Component {
   }
 
   to_task(action) {
-    console.log("to_task", action);
+    console.log("to_task", action.folder);
     this.setState({
       curFolder: action.folder
     });
@@ -317,14 +351,13 @@ export class App extends React.Component {
       this.setState({curFolder: {id : null, title : null}});
     }
     const notesIndexes = getNotesIndexes(this.state.notes,action.title);
-    console.log("DFSDFDSF",notesIndexes);
     this.setState({
-      folders: this.state.folders.filter(({ id }) => id !== action.id),
+      folders: this.state.folders.filter(({ title }) => title !== action.title),
     });
     this.setState({
       notes : this.state.notes.filter(({folder}) => folder !== action.title),
     })
-    createDatabase(delItem,action.id,"folders");
+    createDatabase(delItem,action.title,"folders");
     for(let i = 0; i < notesIndexes.length; i++) {
       createDatabase(delItem,notesIndexes[i],"notes");
     }
