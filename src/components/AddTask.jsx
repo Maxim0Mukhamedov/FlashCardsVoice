@@ -47,7 +47,9 @@ export class AddTask extends React.Component {
           required
           autoFocus
         />
-        <input className = "submit-question" type ="submit"/>
+        <input className = "submit-question" 
+          value = "Сохранить"
+          type ="submit"/>
       </form>
     )
   }
