@@ -40,15 +40,15 @@ export class TaskItemPlay extends React.Component {
     </div>
 
     <input
-        className = "arrow"
+        className = "arrow1"
         type      = "button"
-        value     = "<-"
+        value     = "туды"
         onClick  = {this.prevQ}
         />
     <input
-        className = "arrow"
+        className = "arrow2"
         type      = "button"
-        value     = "->"
+        value     = "сюды"
         onClick  = {this.nextQ}
         />
       </>
