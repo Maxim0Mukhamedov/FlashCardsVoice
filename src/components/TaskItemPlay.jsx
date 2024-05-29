@@ -40,24 +40,28 @@ export class TaskItemPlay extends React.Component {
       </div>
       <div className="arrows">
         <button className="arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 15H3.41l8.29-8.29-1.41-1.42-10 10a1 1 0 0 0 0 1.41l10 10 1.41-1.41L3.41 17H32z" data-name="Left"/>
+            </svg>
             <input
+              id = "left-arrow"
               type      = "button"
               value     = "<-"
               onClick  = {this.prevQ}
             />
-            <svg xmlns="http://www.w3.org/2000/svg">
-              <path d="M32 15H3.41l8.29-8.29-1.41-1.42-10 10a1 1 0 0 0 0 1.41l10 10 1.41-1.41L3.41 17H32z" data-name="Left"/>
-            </svg>
+
         </button>
         <button className="arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg">
+              <path d="m31.71 15.29-10-10-1.42 1.42 8.3 8.29H0v2h28.59l-8.29 8.29 1.41 1.41 10-10a1 1 0 0 0 0-1.41z" data-name="Right"/>
+            </svg>
           <input
+            id = "right-arrow"
             type      = "button"
             value     = "->"
             onClick  = {this.nextQ}
             />
-            <svg xmlns="http://www.w3.org/2000/svg">
-              <path d="m31.71 15.29-10-10-1.42 1.42 8.3 8.29H0v2h28.59l-8.29 8.29 1.41 1.41 10-10a1 1 0 0 0 0-1.41z" data-name="Right"/>
-            </svg>
+
         </button>
       </div>
     </div>

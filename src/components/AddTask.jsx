@@ -16,7 +16,7 @@ export class AddTask extends React.Component {
     const { onAdd } = this.props;
 
     return (
-      <form
+      <form class="add-tasks"
         onSubmit={(event) => {
           event.preventDefault();
           onAdd(this.state.note);
@@ -26,6 +26,7 @@ export class AddTask extends React.Component {
         }}
       >
         <input
+          id = "addQ"
           className   = "add-question"
           type        = "text"
           placeholder = "Введите вопрос"

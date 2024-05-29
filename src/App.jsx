@@ -162,12 +162,14 @@ export class App extends React.Component {
       showTaskList: true,
       showFolderList: true,
       curFolder: {id: null, title: null},
+      curInd : 0,
     };
 
     createDatabase(getItems,(place, val) => this.setItem(place,val),"folders");
     createDatabase(getItems,(place, val) => this.setItem(place,val),"notes");
 
     this.assistant = initializeAssistant(() => this.getStateForAssistant());
+        this.handleKeyPress = this.handleKeyPress.bind(this);
 
     this.assistant.on('data', (event /*: any*/) => {
       console.log(`assistant.on(data)`, event);
@@ -365,6 +367,57 @@ export class App extends React.Component {
       createDatabase(delItem,notesIndexes[i],"notes");
     }
 
+  }
+
+      handleKeyPress(e) {
+    switch (e.key) {
+      case "ArrowDown":
+        this.state.curInd = (this.state.curInd + 1)%this.state.folders.length
+        if (document.getElementById("toFol-"+this.state.curInd)) {
+        document.getElementById("toFol-"+this.state.curInd).focus();
+        document.getElementById("toFol-"+this.state.curInd).select();
+      }
+        break;
+      case "ArrowUp":
+        if (this.state.curInd - 1 >= 0) {
+          this.state.curInd -= 1;
+        } else {
+          if (document.getElementById("addQ")) {
+          document.getElementById("addQ").focus();
+          document.getElementById("addQ").select();
+          this.state.curInd = 1;
+          break;
+        }
+          this.state.curInd = this.state.folders.length - 1;
+        }
+        if (document.getElementById("toFol-"+this.state.curInd)) {
+        document.getElementById("toFol-"+this.state.curInd).focus();
+        document.getElementById("toFol-"+this.state.curInd).select();
+      }
+        break;
+      case "ArrowRight":
+        if (document.getElementById("right-arrow")) {
+        document.getElementById("right-arrow").focus();
+        document.getElementById("right-arrow").select();
+      } else 
+        break;
+      case "ArrowLeft":
+        if (document.getElementById("left-arrow")) {
+        document.getElementById("left-arrow").focus();
+        document.getElementById("left-arrow").select();
+      } 
+        break;
+      default:
+        return; // Quit when this doesn't handle the key event.
+    }
+  }
+  
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyPress);
   }
 
   render() {

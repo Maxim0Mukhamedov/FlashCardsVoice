@@ -8,23 +8,29 @@ body {
 }
 
 .folder-title {
-  font-size: xxx-large;
-}
+  font-size: 4.5vh;}
 
 .task-list-container {
   margin: 0 auto;
-  max-width: 960px;
-  padding: 0 48px;
+  width: 50%;
   grid-area: task-list;
+  border-bottom: solid;
+  border-color: #333333;
 }
 
 .folders-list-container {
   margin: 0 auto;
-  max-width: 960px;
-  padding: 0 48px;
+  width: 50%;
+  padding: 0 1em;
   grid-area: folders-list;
 }
 
+.add-tasks {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .add-question,
 .add-answer,
@@ -33,7 +39,6 @@ body {
   background-color: #222222;
   padding: 10px 20px;
   font-weight: 500;
-  font-style: normal;
   font-size: 20px;
   line-height: 20px;
   letter-spacing: -3.8;
@@ -45,6 +50,7 @@ body {
 
 .add-question,
 .add-answer {
+
   background-color: #222222;
   padding: 10px 20px;
   font-weight: 500;
@@ -59,16 +65,14 @@ body {
 
 .add-folder {
   background-color: #222222;
-  padding: 10px 20px;
   font-weight: 500;
-  font-style: normal;
   font-size: 20px;
   line-height: 20px;
   letter-spacing: -3.8;
   color: #e1e3e6;
   text-align: center;
   border-radius: 8px;
-  margin: 5px;
+  margin-top: 3em;
   width: 350px;
 }
 
@@ -79,16 +83,14 @@ body {
 
 .submit-question {
   background-color: #222222;
-  padding: 10px 20px;
   font-weight: 500;
-  font-style: normal;
   font-size: 20px;
   line-height: 20px;
   letter-spacing: -3.8;
   color: #e1e3e6;
   text-align: center;
   border-radius: 8px;
-  margin: 5px;
+  /*margin: 5px;*/
   cursor: pointer;
 }
 
@@ -103,7 +105,6 @@ body {
 {
   padding: 16px 32px;
   font-weight: 500;
-  font-style: normal;
   font-size: 32px;
   line-height: 40px;
   letter-spacing: -3.8;
@@ -112,45 +113,60 @@ body {
   margin-bottom: 20px;
 }
 
-/*
-.task-item {
-  padding: 16px 16px;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 32px;
-  letter-spacing: -3.8;
-  background-color: #292929;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 855px;
-  color: #e1e3e6;
+.summary-s {
+  padding-top: 1em;
+  height: auto;
+  text-align: center;
+  margin: 0 0 1em 0;
+  border-radius: 10px;
+ background: rgb(34,34,34);
+background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(57,102,94,1) 50%, rgba(34,34,34,1) 100%);   
 }
 
-.task-item .card {
-  margin: 0;
-  padding: 0;
+.summary-title {
+  font-size: 5vh;
+  padding-top: 1em;
+  color: #FFFFFF;
 }
 
-.task-item .question {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  margin: 0;
-  padding: 0;
+.summary-content {
+  overflow-wrap: break-word;
+  height: auto;
+  text-align: center;
+  padding: 3em 3em 3em 3em;
+  margin: 0 0 1em 0;
+  border-radius: 10px;
+  color: #FFFFFF;
+  background-color: #333333;
 }
 
-.task-item .answer {
-  margin-top: 10px;
-  margin: 0;
-  padding: 10;
+details[open] > summary {
+  .summary-chevron-up {
+    transform: rotate(-180deg);
+    transition: transform 0.3s; /* Изменено на transform для вращения */
+  }
 }
 
-.task-item .del-task-button {
-  flex-shrink: 0;
-  margin-left: 16px;
+.summary-s details div {
+  overflow: hidden;
+  padding: 1em 1em 0;
 }
-*/
+.summary-s details[open] div {
+  animation: spoiler 1s;
+}
+@keyframes spoiler {
+  0%   {max-height: 0;}
+  100% {max-height: 10em;}
+}
+
+details[open] summary ~ * {
+  animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+  0%    {opacity: 0; margin-left: -10px}
+  100%  {opacity: 1; margin-left: 0px}
+}
 
 details > summary {
   list-style: none;
@@ -161,129 +177,40 @@ details > summary::-webkit-details-marker /* Safari */ {
   display: none;
 }
 
-/*
-details {
-  background: #282828;
-  margin-bottom: .5rem;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.summary-s {
-  padding: 1rem;
-  background: #333333;
-  padding-left: 2.2rem;
-  cursor: pointer;
-}
-
-summary:before {
-  border-width: .4rem;
-  border-style: solid;
-  border-color: transparent transparent transparent #fff;
-  position: absolute;
-  top: 1.3rem;
-  left: 1rem;
-  transform: rotate(0);
-  transform-origin: .2rem 50%;
-  transition: .25s transform ease;
-}
-
-details[open] > summary:before {
-  transform: rotate(90deg);
-}
-*/
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-$details-padding: 1em;
-
-details {
-  font-size: 1rem;
-  margin: 7em auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  width: 100%;
-  background: #ffffff;
-  border-radius: 8px;
-  position: relative;
-  width: 500px;
-
-  .summary-title {
-    user-select: none;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  .summary-content {
-    border-top: 1px solid #e2e8f0;
-    cursor: default;
-    padding: $details-padding;
-    font-weight: 300;
-    line-height: 1.5;
-  }
-
-  summary {
-    list-style: none;
-    padding: $details-padding;
-
-    &:focus {
-      outline: none;
-    }
-
-    &:hover .summary-chevron-up svg {
-      opacity: 1;
-    }
-  }
-
-  .summary-chevron-up svg {
-    opacity: 0.5;
-  }
-
-  .summary-chevron-up,
-  .summary-chevron-down {
-    pointer-events: none;
-    position: absolute;
-    top: 0.75em;
-    right: $details-padding;
-    background: #ffffff;
-
-    svg {
-      display: block;
-    }
-  }
-}
-
 .delete-folder-button {
+  color: #FFFFFF;
+  background-color: #39665e;
+  border: 0;
+  border-radius: 10px;
   padding: 0;
+  margin: 5px;
   font-weight: 10;
-  font-size: 15px;
   line-height: 15px;
   letter-spacing: -3.8;
   cursor: pointer;
   float: right;
+  height: 50px;
+  width: 50px;
 }
 
 .to-folder-button {
+    color: #FFFFFF;
+  background-color: #39665e;
+  border: 0;
+  border-radius: 10px;
   padding: 0;
   height: 100%;
   font-weight: 10;
-  font-style: normal;
-  font-size: 15px;
   line-height: 15px;
   letter-spacing: -3.8;
   cursor: pointer;
   float: right;
+  height: 50px;
+  width: 50px;
 }
 
 .del-task-button {
   font-weight: 10;
-  font-size: 15px;
   line-height: 15px;
   letter-spacing: -3.8;
   cursor: pointer;
@@ -292,31 +219,40 @@ details {
 }
 
 .arrows {
-width: 100%;
-text-align: center;
+  width: 100%;
+  text-align: center;
+  border-bottom: solid;
+  border-color: #333333;
 }
 
 .arrow {
   border-radius: 10px;
   text-align: center;
   color: #e1e3e6;
-  padding: 10px 20px;
-  background-color: #222222;
-  border-radius: 5px;
-  margin: 20px 5px;
+  background-color: #233142;
+  border-radius: 10%;
+  margin: 30px 20px 20px 5px;
   cursor: pointer;
   border:rgba(0, 0, 0, 0.1);
   animation: arrow 700ms linear infinite;
 }
 
 .arrow input {
+  position: relative;
   opacity: 0;
+  background-color: green;
+  border-radius: 10px;
+  height: 3.5em;
+  width: 4.5em;
+  cursor: pointer;
 }
 
 .arrow svg {
+  position: absolute;
   fill: #ffffff;
-  width:  3vw;
-  height: 2.75vh;
+  margin: 0.55vw 2.1vh;
+  width: 5vw;
+  height: 7vh;
 }
 
 .folder-list,
@@ -329,7 +265,7 @@ text-align: center;
 }
 
 .card-number {
-  font-size: 24px;
+  font-size: 3vh;
   font-weight: bold;
   color: #e1e3e6;
   text-align: center;
@@ -340,11 +276,13 @@ text-align: center;
 }
 
 .card {
-  height: 100px;
-  position: relative;
+  height: 25em;
   perspective: 1500px;
   margin-top: -30px;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .card-inner {
@@ -354,8 +292,9 @@ text-align: center;
   transform-style: preserve-3d;
 }
 
-.card:hover .card-inner {
+.card:active .card-inner {
   transform: rotateY(180deg);
+  transition: 0.5s;
 }
 
 .card-front,
@@ -374,30 +313,31 @@ text-align: center;
   margin: 20px 0;
   border-radius: 8px;
   text-align: center;
-  padding: 10px 20px;
 }
 
 .card-back {
-  background-color: #39665e; 
-  transform: rotateY(180deg); 
+  background-color: #39665e;
+  transform: rotateY(180deg);
   margin: 20px 0;
   border-radius: 8px;
   text-align: center;
-  padding: 10px 20px;
 }
 
 .question,
 .answer {
-  font-size: 24px;
+  font-size: 7.5vh;
   font-weight: bold;
   color: #e1e3e6;
   text-align: center;
   padding: 20px;
 }
 
+.answer {
+  font-size: 4vh;
+}
+
 .cur-folder {
-  font-size: 36px;
+  font-size: 2vh;
   color: #e1e3e6;
   font-weight: bold;
 }
-

@@ -17,6 +17,7 @@ export const FolderItem = (props) => {
         </span>
       </span>
       <input
+        id = {"toFol-"+index}
         className = "to-folder-button"
         type      = "button"
         value     = "+"

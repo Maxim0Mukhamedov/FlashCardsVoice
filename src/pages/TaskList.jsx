@@ -8,13 +8,13 @@ export const TaskList = (props) => {
   return (
     <main className="task-list-container">
 
-      <span className = "cur-folder">Текущая папка: {curFolder.title}</span>
-      <AddTask
-        onAdd = { onAdd }
-      />
+      <span className = "cur-folder"><span style={{color: '#45830a'}}>[salute@flash-cards</span> <span style={{color: '#3465a4'}}>{curFolder.title}</span><span style={{color: '#45830a'}}>]$</span> ls -altr</span>
             { items.filter(({folder}) => folder === curFolder.title).length > 0 ?<TaskItemPlay
         items = { items.filter(({folder}) => folder === curFolder.title) }
       /> : null }
+      <AddTask
+        onAdd = { onAdd }
+      />
       <TaskItemList className="card-play"
         items  = { items.filter(({folder}) => folder === curFolder.title) }
         delTask = { delTask }
