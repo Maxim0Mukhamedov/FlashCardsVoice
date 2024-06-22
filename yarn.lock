@@ -1722,7 +1722,7 @@
     node-fetch "2.6.7"
     uuid "9.0.0"
 
-"@salutejs/spatial@=3.0.14":
+"@salutejs/spatial@=1.32.0":
   version "3.0.14"
   resolved "https://registry.yarnpkg.com/@salutejs/spatial/-/spatial-3.0.14.tgz#03aee3bd5baa1dc1a52089036d0713f9b5e0a594"
   integrity sha512-YGMlRtaQmq1pyzu6bauCYLDHY7nPwRRtlktLVkWbFTA6AMEft4sHQIw7e7rwl+oiPq95/llMw8vHrMIxEHD6+g==

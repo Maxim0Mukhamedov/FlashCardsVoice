@@ -5,16 +5,18 @@ import "../App.css";
 
 
 export const FolderItem = (props) => {
-  const { item, index, toTask, delFol } = props;
+  const { item, index, toFolder, delFol, curFolder } = props;
   const [sectionProps] = useSection('sectionFoldersList' + item.id);
+  const classname = "sn-section-item folder-title" + (curFolder.id == item.id ? " cur-folder-item" : "");
   return (
           <div {...sectionProps}>
     <li className = "folder-item">
       <button
-        class = "sn-section-item folder-title"
-        onClick = {(event) => toTask(item)}
+        id={item.id}
+        className = {classname}
+        onClick = {(event) => toFolder(item)}
       >
-        {item.title}
+       {item.title}
       </button>
       <input
         className = "sn-section-item delete-folder-button"

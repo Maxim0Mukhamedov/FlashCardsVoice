@@ -1,9 +1,9 @@
 import React from 'react';
 import { createAssistant, createSmartappDebugger } from '@salutejs/client';
-import { useSpatnavInitialization, useSection } from '@salutejs/spatial';
+import { useSpatnavInitialization, useSection, spatnavInstance } from '@salutejs/spatial';
 
 import './App.css';
-import { TaskList } from './pages/TaskList';
+import { CardList } from './pages/CardList';
 import { FolderList } from './pages/FolderList';
 
 
@@ -26,17 +26,17 @@ function createDatabase(callback, val1=null, val2=null) {
         callback(db,val1,val2);
     };
 
-    request.onupgradeneeded = (e) => {
+  request.onupgradeneeded = (e) => {
         console.info('Database created');
         const db = request.result;
         const foldersStore = db.createObjectStore("folders", { keyPath: "id" });
-        const notesStore = db.createObjectStore("notes", { keyPath: "id" });
+        const cardsStore = db.createObjectStore("cards", { keyPath: "id" });
         foldersStore.add({id:1, title: "Инструкция к приложению"});
-        notesStore.add({ id: 1, folder:"Инструкция к приложению", title: "Добавление папки", ans: "Чтобы добавить папку под названием <FolderName>, заполните поле ввода названия папки в нижней части экрана и нажмите Enter."})
-        notesStore.add({ id: 2, folder:"Инструкция к приложению", title: "Удаление папки", ans: "Чтобы удалить папку, нажмите на крест рядом с её названием."})
-        notesStore.add({ id: 3, folder:"Инструкция к приложению", title: "Добавление карточки", ans: "Чтобы добавить карточку под названием <CardName>, заполните поля ввода названия карточки и её содержимого и нажмите на кнопку \"Сохранить\"."})
-        notesStore.add({ id: 4, folder:"Инструкция к приложению", title: "Удаление карточки", ans: "Чтобы удалить карточку, нажмите на крест рядом с её названием."})
-        notesStore.add({ id: 5, folder:"Инструкция к приложению", title: "Работа с ассистентом", ans: "Для вызова ассистента воспользуйтесь голосовой командой \"запусти флеш-карточки\""})
+        cardsStore.add({ id: 1, folder:"Инструкция к приложению", title: "Добавление папки", ans: "Чтобы добавить папку под названием <ИмяПапки>, заполните поле ввода названия папки в нижней части экрана и нажмите Enter."})
+        cardsStore.add({ id: 2, folder:"Инструкция к приложению", title: "Удаление папки", ans: "Чтобы удалить папку, нажмите на крест рядом с её названием."})
+        cardsStore.add({ id: 3, folder:"Инструкция к приложению", title: "Добавление карточки", ans: "Чтобы добавить карточку под названием <ИмяКарточки>, заполните поля ввода названия карточки и её содержимого и нажмите на кнопку \"Сохранить\"."})
+        cardsStore.add({ id: 4, folder:"Инструкция к приложению", title: "Удаление карточки", ans: "Чтобы удалить карточку, нажмите на крест рядом с её названием."})
+        cardsStore.add({ id: 5, folder:"Инструкция к приложению", title: "Работа с ассистентом", ans: "Для вызова ассистента воспользуйтесь голосовой командой \"запусти флеш-карточки\""})
     };
 }
 
@@ -80,7 +80,7 @@ function delItem(db,item,place){
 
     const objectStore = transaction.objectStore(place);
 
-    if (place === "folders" || place === "notes") {
+    if (place === "folders" || place === "cards") {
       const allItems = objectStore.getAll();
       allItems.onsuccess = (event) =>
       {
@@ -116,14 +116,14 @@ function getItems(db, callback, place) {
   }
 }
 
-function getNotesIndexes(data,title) {
-  const notesIndexes = [];
+function getcardsIndexes(data,title) {
+  const cardsIndexes = [];
   for (let i = 0; i < data.length; i++) {
     if (data[i].folder === title) {
-      notesIndexes.push(data[i].title);
+      cardsIndexes.push(data[i].title);
     }
   }
-  return notesIndexes;
+  return cardsIndexes;
 }
 
 
@@ -159,10 +159,10 @@ export class App extends React.Component {
     console.log('constructor');
 
     this.state = {
-      notes: [{ id: null, folder: null, title: null, ans: null}],
+      cards: [{ id: null, folder: null, title: null, ans: null}],
       folders: [{ id: null, title: null}],
       newNote: {id: null, folder: null, title: null, ans: null},
-      // notes: this.dbRequest.getNotes,
+      // cards: this.dbRequest.getcards,
       // folders: getFolders(),
       showTaskList: true,
       showFolderList: true,
@@ -171,7 +171,7 @@ export class App extends React.Component {
     };
 
     createDatabase(getItems,(place, val) => this.setItem(place,val),"folders");
-    createDatabase(getItems,(place, val) => this.setItem(place,val),"notes");
+    createDatabase(getItems,(place, val) => this.setItem(place,val),"cards");
 
     this.assistant = initializeAssistant(() => this.getStateForAssistant());
     // this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -215,7 +215,7 @@ export class App extends React.Component {
     console.log('getStateForAssistant: this.state:', this.state);
     const state = {
       item_selector: {
-        items: this.state.notes.map(({ id, title }, index) => ({
+        items: this.state.cards.map(({ id, title }, index) => ({
           number: index + 1,
           id,
           title,
@@ -234,13 +234,16 @@ export class App extends React.Component {
   checkFunction(action,place) {
     if (place === "folders") {
     if (this.state.folders.filter(({ title }) => title.toLowerCase() === action.title.toLowerCase()).length === 0) {
+      this.assistant.cancelTts();
       this.assistant.sendData({ action: { action_id: 'not_existing_folder', parameters: { param: 'some' } } });
     }
-  } else if (place === "notes") { 
-  if ((this.state.notes.filter(({ title }) => title.toLowerCase() === action.title.toLowerCase()).length === 0) || this.state.curFolder.title === null) {
+  } else if (place === "cards") { 
+  if ((this.state.cards.filter(({ title }) => title.toLowerCase() === action.title.toLowerCase()).length === 0) || this.state.curFolder.title === null) {
+    this.assistant.cancelTts()
     this.assistant.sendData({ action: { action_id: 'not_existing_card', parameters: { param: 'some' } } });
-  } } else if (place === "add_note") {
+  } } else if (place === "add_card") {
     if (this.state.curFolder.title === null) {
+      this.assistant.cancelTts()
       this.assistant.sendData({ action: { action_id: 'not_in_folder', parameters: { param: 'some' } } });
     }
   }
@@ -256,15 +259,16 @@ export class App extends React.Component {
           this.checkFunction(action,"folders");
           return this.delete_folder(action);
         case 'to_folder':
-          return this.to_task(action);
+          this.checkFunction(action,"folders");
+          return this.to_folder(action);
         case 'add_card_title':
-          this.checkFunction(action,"add_note");
+          this.checkFunction(action,"add_card");
           return this.add_title(action);
         case 'add_card_text':
           return this.add_text(action);
         case 'delete_card':
-          this.checkFunction(action,"notes");
-          return this.delete_note(action);
+          this.checkFunction(action,"cards");
+          return this.delete_card(action);
         default:
           throw new Error();
       }
@@ -284,13 +288,13 @@ export class App extends React.Component {
   add_text(action) {
     this.state.newNote.ans = action.text;
     if (this.state.newNote.title !== null) {
-      this.add_note({type : "add_note",note : this.state.newNote});
+      this.add_card({type : "add_card",note : this.state.newNote});
     }
     this.state.newNote.title = null; 
   }
 
-  add_note(action) {
-    console.log('add_note', action);
+  add_card(action) {
+    console.log('add_card', action);
     const newNote = {
           id: Math.random().toString(36).substring(7),
           title: action.note.title,
@@ -298,20 +302,20 @@ export class App extends React.Component {
           folder: this.state.curFolder.title,
         };
     this.setState({
-      notes: [
-        ...this.state.notes,
+      cards: [
+        ...this.state.cards,
         newNote
       ],
     });
-    createDatabase(addItem,newNote,"notes");
+    createDatabase(addItem,newNote,"cards");
   }
 
-  delete_note(action) {
-    console.log('delete_note', action);
+  delete_card(action) {
+    console.log('delete_card', action);
     this.setState({
-      notes: this.state.notes.filter(({ title }) => title.toLowerCase() !== action.title.toLowerCase()),
+      cards: this.state.cards.filter(({ title }) => title.toLowerCase() !== action.title.toLowerCase()),
     });
-    createDatabase(delItem,action.title,"notes");
+    createDatabase(delItem,action.title,"cards");
   }
 
   add_folder(action) {
@@ -329,8 +333,10 @@ export class App extends React.Component {
     createDatabase(addItem,newFolder,"folders");
   }
 
-  to_task(action) {
-    console.log("to_task", action.folder);
+  to_folder(action) {
+
+    console.log("to_folder", action.folder);
+
     this.setState({
       curFolder: action.folder
     });
@@ -341,16 +347,16 @@ export class App extends React.Component {
     if(action.title === this.state.curFolder.title) {
       this.setState({curFolder: {id : null, title : null}});
     }
-    const notesIndexes = getNotesIndexes(this.state.notes,action.title.toLowerCase());
+    const cardsIndexes = getcardsIndexes(this.state.cards,action.title.toLowerCase());
     this.setState({
       folders: this.state.folders.filter(({ title }) => title.toLowerCase() !== action.title.toLowerCase()),
     });
     this.setState({
-      notes : this.state.notes.filter(({folder}) => folder.toLowerCase() !== action.title.toLowerCase()),
+      cards : this.state.cards.filter(({folder}) => folder.toLowerCase() !== action.title.toLowerCase()),
     })
     createDatabase(delItem,action.title,"folders");
-    for(let i = 0; i < notesIndexes.length; i++) {
-      createDatabase(delItem,notesIndexes[i],"notes");
+    for(let i = 0; i < cardsIndexes.length; i++) {
+      createDatabase(delItem,cardsIndexes[i],"cards");
     }
 
   }
@@ -358,14 +364,14 @@ export class App extends React.Component {
   render() {
     console.log('render');
     return (
-      <>
-{        this.state.curFolder.title !== null ? <TaskList
-          items={this.state.notes}
+      <div class = "main-body">
+{        this.state.curFolder.title !== null ? <CardList
+          items={this.state.cards}
           onAdd={(note) => {
-            this.add_note({ type: 'add_note', note });
+            this.add_card({ type: 'add_card', note });
           }}
-          delTask={(note) => {
-            this.delete_note(note);
+          delCard={(note) => {
+            this.delete_card(note);
           }}
           curFolder = {this.state.curFolder}
         /> : null}
@@ -374,14 +380,15 @@ export class App extends React.Component {
           onAdd={(folder) => {
             this.add_folder({ type: 'add_folder', folder});
           }}
-          toTask={(folder) => {
-            this.to_task({folder})
+          toFolder={(folder) => {
+            this.to_folder({folder})
           }}
           delFol={(folder) => {
             this.delete_folder(folder);
           }}
+          curFolder = {this.state.curFolder}
         /> : null}
-      </>
+      </div>
     );
   }
 }

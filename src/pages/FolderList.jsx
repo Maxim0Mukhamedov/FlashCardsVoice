@@ -4,7 +4,7 @@ import {AddFolder} from '../components/AddFolder';
 import { useSpatnavInitialization, useSection } from '@salutejs/spatial';
 
 export const FolderList = (props) => {
-  const { items, onAdd, toTask, delFol } = props;
+  const { items, onAdd, toFolder, delFol, curFolder } = props;
   useSpatnavInitialization();
   const [sectionProps] = useSection('sectionFolder');
   return (
@@ -13,12 +13,14 @@ export const FolderList = (props) => {
       <AddFolder
         onAdd = { onAdd }
       />
-    </div>
+
      {items.length >= 1 ? <FolderItemList
         items  = { items.filter(({title}) => title !== null) }
-        toTask = { toTask }
+        toFolder = { toFolder }
         delFol = { delFol }
+        curFolder = { curFolder }
       /> : null} 
+          </div>
     </main>
   )
 }

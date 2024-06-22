@@ -5,7 +5,7 @@ import "../App.css";
 
 
 export const FolderItemList = (props) => {
-  const { items, toTask, delFol } = props
+  const { items, toFolder, delFol, curFolder } = props
   return (
     <ul className="folder-list">
       {
@@ -13,8 +13,9 @@ export const FolderItemList = (props) => {
           <FolderItem
             item   = { item }
             index  = { index }
-            toTask = {() => toTask(item)} 
+            toFolder = {() => toFolder(item)} 
             delFol = {() => delFol(item)}
+            curFolder = { curFolder }
           />
         ))
       }

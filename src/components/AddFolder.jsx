@@ -14,7 +14,7 @@ export class AddFolder extends React.Component {
     const { onAdd } = this.props;
     return (
       <form 
-        className = "folder-add-form"
+        className = "add-folder"
         onSubmit={(event) => {
           event.preventDefault();
           onAdd(this.state.folder);
@@ -23,17 +23,18 @@ export class AddFolder extends React.Component {
           })
         }}
       >
+      <button className = "sn-section-item add-folder-name">
         <input
-          className   = "sn-section-item add-folder"
+          className   = "add-folder-name"
           type        = "text"
-          placeholder = "Название папки"
+          placeholder = "Новая папка"
           value       = { this.state.folder }
           onChange    = {({ target: { value } }) => this.setState({
             folder: value,
           })}
           required
-          autoFocus
         />
+      </button>
       </form>
     )
   }

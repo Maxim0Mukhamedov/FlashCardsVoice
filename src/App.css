@@ -1,16 +1,23 @@
  @import url(https://db.onlinewebfonts.com/c/37086b994764dba84b2ee0f1083bfeed?family=SB+Sans+Interface);
 
 body {
+  min-height: 100vh;
   font-family: "SB Sans Interface";
   background-color: #141414;
-  margin-top: 2vh;
-  margin-bottom: 15vh;
+  margin-top: 2em;
+  margin-bottom: 10em;
+}
+
+.main-body {
+  text-align: center;
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
 
 .folder-title {
-  font-size: 3vh;
+  font-size: 0.75em;
   border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-top-left-radius:    10px;
   padding-right:  1em;
   padding-left:   1em;
   padding-top:    0.5em;
@@ -22,24 +29,26 @@ body {
   cursor: pointer;
 }
 
-.task-list-container {
-  margin: 0 auto;
-  width: 50%;
+.card-list-container {
   grid-area: task-list;
   border-bottom: solid;
   border-color: #333333;
 }
 
 .folders-list-container {
-  margin: 0 auto;
-  width: 50%;
 }
 
 .add-tasks {
   margin-top: 0.5em;
-  text-align: center;
-  align-items: center;
+  text-align:      center;
+  align-items:     center;
   justify-content: center;
+}
+
+.add-cont {
+  background: 0;
+  border-radius: 10px;
+  border: 0;
 }
 
 .add-question,
@@ -54,26 +63,30 @@ body {
   margin: 0.25em;
 }
 
-.folder-add-form {
-  text-align: center;
-}
-
 .add-folder {
-  background-color: #222222;
+  font-size: 1.1em;
   color: #e1e3e6;
   text-align: center;
   border-radius: 10px;
-  margin-top: 2vh;
-  height: 6vh;
-  width: 50vw;
-  overflow-wrap: break-word;
+  margin-top: 1em;
+  width: auto;
+  height: 2.5em;
 }
 
 .add-folder::placeholder {
   color: #ffffff;
-  font-size: 2.75vh;
 }
 
+.add-folder-name {
+  border: none;
+  background-color: #222222;
+  font-size: 2.75vh;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 10px;
+  height: 2em;
+  width: 80vw;
+}
 
 .submit-question {
   background-color: #233142;
@@ -120,7 +133,7 @@ body {
   }
 
 .summary-title {
-  font-size: 2em;
+  font-size: 1.5em;
   padding-right:  1em;
   padding-left:   1em;
   padding-top:    0.5em;
@@ -142,7 +155,7 @@ body {
   border-radius: 10px;
   color: #FFFFFF;
   background-color: #333333;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 details[open] > summary {
@@ -286,7 +299,7 @@ details > summary::-webkit-details-marker /* Safari */ {
 
 .question,
 .answer {  
-  font-size: 3em;
+  font-size: 6vw;
   font-weight: bold;
   color: #e1e3e6;
   text-align: center;
@@ -294,6 +307,7 @@ details > summary::-webkit-details-marker /* Safari */ {
 }
 
 .answer {
+    font-size: 3vw;
     transform: rotateY(0.5turn);
 }
 
@@ -322,8 +336,13 @@ details > summary::-webkit-details-marker /* Safari */ {
 }
 
 .cur-folder {
-  font-size: 3vh;
+  font-size: 1.5em;
   color: #e1e3e6;
   font-weight: bold;
   overflow-wrap: break-word;
+}
+
+.cur-folder-item {
+  background: rgb(34,34,34);
+  background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(57,102,94,1) 50%, rgba(34,34,34,1) 100%);
 }
